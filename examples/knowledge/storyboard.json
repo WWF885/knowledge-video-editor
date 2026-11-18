@@ -1,0 +1,263 @@
+{
+  "video_type": "knowledge",
+  "aspect_ratio": "16:9",
+  "resolution": [1920, 1080],
+  "theme": "dark_gold",
+  "fps": 30,
+  "duration": 96,
+  "cover": {
+    "lines": ["工作方式", "彻底变了"],
+    "position": "center",
+    "visible_from_first_frame": true,
+    "duration": 2,
+    "emphasis_index": 1,
+    "export_png": true
+  },
+  "navigation": {
+    "enabled": true,
+    "chapters": ["现状", "逻辑", "案例", "总结"],
+    "height_ratio": 0.07,
+    "hide_during_cover": true,
+    "style": "progress"
+  },
+  "subtitles": {
+    "languages": ["zh", "en"],
+    "layout": "chinese_above_english",
+    "safe_area_check": true,
+    "source": "work/subtitle.json"
+  },
+  "audio": { "voice": "work/edited.mp4", "bgm": null, "target_lufs": -16 },
+  "storyboard": [
+    {
+      "scene_id": "S001", "start": 0, "end": 2, "chapter": "现状",
+      "visual_type": "cover",
+      "content": { "title_lines": ["工作方式", "彻底变了"] },
+      "cover_visible": true,
+      "animation_plan": [
+        { "time": 0, "action": "cover_static", "ease": "linear", "dur": 0 },
+        { "time": 0.6, "action": "keyword_glow", "ease": "easeOutCubic", "dur": 0.6 },
+        { "time": 1.4, "action": "subtle_push", "ease": "easeOutCubic", "dur": 0.6 }
+      ],
+      "sfx": [{ "at": 0, "name": "soft_impact", "gain": -18 }]
+    },
+    {
+      "scene_id": "S002", "start": 2, "end": 9, "chapter": "现状",
+      "visual_type": "presenter",
+      "layout": { "mode": "presenter_full" },
+      "content": { "focus": "开场陈述" },
+      "cover_visible": false,
+      "animation_plan": [
+        { "time": 2, "action": "show_navigation", "ease": "easeOutCubic", "dur": 0.4 },
+        { "time": 3, "action": "subtle_zoom", "ease": "easeOutCubic", "dur": 1.2 },
+        { "time": 5.5, "action": "highlight_keyword", "ease": "easeOutCubic", "dur": 0.4 },
+        { "time": 7, "action": "read_hold", "ease": "linear", "dur": 1.6 }
+      ]
+    },
+    {
+      "scene_id": "S003", "start": 9, "end": 16, "chapter": "现状",
+      "visual_type": "compare",
+      "layout": { "mode": "split_horizontal" },
+      "content": {
+        "left": { "title": "过去", "items": ["一份时间卖一次", "靠加班换收入", "技能绑在岗位上"] },
+        "right": { "title": "现在", "items": ["一份时间卖三次", "靠系统换收入", "技能可被复用"] }
+      },
+      "cover_visible": false,
+      "animation_plan": [
+        { "time": 9, "action": "left_in", "ease": "easeOutCubic", "dur": 0.4 },
+        { "time": 10.2, "action": "right_in", "ease": "easeOutCubic", "dur": 0.4 },
+        { "time": 12.5, "action": "diff_highlight", "ease": "easeOutCubic", "dur": 0.5 },
+        { "time": 14, "action": "read_hold", "ease": "linear", "dur": 2 }
+      ],
+      "sfx": [
+        { "at": 9, "name": "whoosh", "gain": -18 },
+        { "at": 10.2, "name": "whoosh", "gain": -18 }
+      ],
+      "subtitle_ref": ["sub_0006", "sub_0007", "sub_0008"]
+    },
+    {
+      "scene_id": "S004", "start": 16, "end": 24, "chapter": "逻辑",
+      "visual_type": "flow_steps",
+      "layout": { "mode": "knowledge_full" },
+      "content": {
+        "title": "三步复用",
+        "nodes": ["沉出方法", "换成产品", "持续交付"],
+        "steps_detail": ["把经验写成可复用流程", "包装成课程/工具/模板", "用渠道反复售卖"]
+      },
+      "cover_visible": false,
+      "animation_plan": [
+        { "time": 16, "action": "title_in", "ease": "easeOutCubic", "dur": 0.36 },
+        { "time": 17.2, "action": "nodes_in", "ease": "easeOutCubic", "dur": 0.4 },
+        { "time": 18.6, "action": "connect_line", "ease": "easeInOutQuad", "dur": 0.5 },
+        { "time": 20.5, "action": "highlight_node", "target": 2, "dur": 0.3 },
+        { "time": 22.2, "action": "read_hold", "ease": "linear", "dur": 1.8 }
+      ],
+      "sfx": [
+        { "at": 18.6, "name": "whoosh", "gain": -18 },
+        { "at": 20.5, "name": "click", "gain": -20 }
+      ]
+    },
+    {
+      "scene_id": "S005", "start": 24, "end": 32, "chapter": "逻辑",
+      "visual_type": "causal_chain",
+      "layout": { "mode": "knowledge_full" },
+      "content": {
+        "title": "为什么能复用",
+        "chain": [
+          { "cause": "边际成本趋零", "effect": "第二份几乎免费" },
+          { "cause": "内容可被搜索", "effect": "长尾持续获客" },
+          { "cause": "系统替你工作", "effect": "睡眠中也在交付" }
+        ]
+      },
+      "cover_visible": false,
+      "animation_plan": [
+        { "time": 24, "action": "chain_step1", "ease": "easeOutCubic", "dur": 0.4 },
+        { "time": 26, "action": "chain_step2", "ease": "easeOutCubic", "dur": 0.4 },
+        { "time": 28, "action": "chain_step3", "ease": "easeOutCubic", "dur": 0.4 },
+        { "time": 30, "action": "read_hold", "ease": "linear", "dur": 1.6 }
+      ]
+    },
+    {
+      "scene_id": "S006", "start": 32, "end": 40, "chapter": "逻辑",
+      "visual_type": "presenter_pip",
+      "layout": { "mode": "presenter_side" },
+      "content": { "focus": "关键判断" },
+      "cover_visible": false,
+      "animation_plan": [
+        { "time": 32, "action": "pip_slide_in", "ease": "easeOutCubic", "dur": 0.4 },
+        { "time": 34, "action": "keyword_reveal", "ease": "easeOutCubic", "dur": 0.5 },
+        { "time": 37, "action": "read_hold", "ease": "linear", "dur": 2.4 }
+      ]
+    },
+    {
+      "scene_id": "S007", "start": 40, "end": 49, "chapter": "案例",
+      "visual_type": "chart",
+      "layout": { "mode": "chart_area" },
+      "content": {
+        "title": "同样 3 小时，两种收入",
+        "chart": "bar",
+        "unit": "元 / 月",
+        "source": "示例数据，非真实业绩",
+        "series": [
+          { "label": "只做一次", "value": 8000 },
+          { "label": "复用三次", "value": 24000 }
+        ]
+      },
+      "cover_visible": false,
+      "animation_plan": [
+        { "time": 40, "action": "axis_in", "ease": "easeOutCubic", "dur": 0.4 },
+        { "time": 41.5, "action": "bar_grow", "ease": "easeOutCubic", "dur": 0.8 },
+        { "time": 43, "action": "number_roll", "ease": "linear", "dur": 1.2 },
+        { "time": 45, "action": "source_note", "ease": "easeOutCubic", "dur": 0.3 },
+        { "time": 47, "action": "read_hold", "ease": "linear", "dur": 1.8 }
+      ],
+      "sfx": [
+        { "at": 43, "name": "tick", "gain": -22 },
+        { "at": 43.6, "name": "tick", "gain": -22 },
+        { "at": 44.2, "name": "tick", "gain": -22 }
+      ]
+    },
+    {
+      "scene_id": "S008", "start": 49, "end": 58, "chapter": "案例",
+      "visual_type": "timeline",
+      "layout": { "mode": "knowledge_full" },
+      "content": {
+        "title": "一个人的六个月",
+        "events": [
+          { "time": "第 1 月", "title": "沉淀方法", "desc": "把碎片经验写成 SOP" },
+          { "time": "第 2–3 月", "title": "做出产品", "desc": "课程 + 模板打包" },
+          { "time": "第 4–6 月", "title": "渠道分发", "desc": "三平台同步分发" }
+        ]
+      },
+      "cover_visible": false,
+      "animation_plan": [
+        { "time": 49, "action": "axis_draw", "ease": "easeInOutQuad", "dur": 0.6 },
+        { "time": 50.5, "action": "event_in", "target": 0, "ease": "easeOutCubic", "dur": 0.4 },
+        { "time": 52.5, "action": "event_in", "target": 1, "ease": "easeOutCubic", "dur": 0.4 },
+        { "time": 54.5, "action": "event_in", "target": 2, "ease": "easeOutCubic", "dur": 0.4 },
+        { "time": 56.5, "action": "read_hold", "ease": "linear", "dur": 1.5 }
+      ]
+    },
+    {
+      "scene_id": "S009", "start": 58, "end": 66, "chapter": "案例",
+      "visual_type": "cards",
+      "layout": { "mode": "cards_grid" },
+      "content": {
+        "title": "复用前必须过的三关",
+        "cards": [
+          { "title": "可复现", "body": "别人照着做能得到近似结果" },
+          { "title": "有交付", "body": "能拿出具体东西，不是空讲" },
+          { "title": "能验证", "body": "有数据或案例背书" }
+        ]
+      },
+      "cover_visible": false,
+      "animation_plan": [
+        { "time": 58, "action": "card_in", "target": 0, "ease": "spring", "dur": 0.5 },
+        { "time": 59.8, "action": "card_in", "target": 1, "ease": "spring", "dur": 0.5 },
+        { "time": 61.6, "action": "card_in", "target": 2, "ease": "spring", "dur": 0.5 },
+        { "time": 63.6, "action": "read_hold", "ease": "linear", "dur": 2.4 }
+      ]
+    },
+    {
+      "scene_id": "S010", "start": 66, "end": 74, "chapter": "案例",
+      "visual_type": "presenter",
+      "layout": { "mode": "presenter_full" },
+      "content": { "focus": "反面提醒" },
+      "cover_visible": false,
+      "animation_plan": [
+        { "time": 66, "action": "subtle_zoom", "ease": "easeOutCubic", "dur": 1.2 },
+        { "time": 69, "action": "highlight_keyword", "ease": "easeOutCubic", "dur": 0.4 },
+        { "time": 71, "action": "read_hold", "ease": "linear", "dur": 2 }
+      ]
+    },
+    {
+      "scene_id": "S011", "start": 74, "end": 82, "chapter": "案例",
+      "visual_type": "citation",
+      "layout": { "mode": "knowledge_full" },
+      "content": {
+        "title": "一个可核对的判断",
+        "source": "《纳瓦尔宝典》· 关于杠杆与复利",
+        "quote": "用头脑赚钱，而不是用时间赚钱。",
+        "highlight_range": "用头脑"
+      },
+      "cover_visible": false,
+      "animation_plan": [
+        { "time": 74, "action": "doc_in", "ease": "easeOutCubic", "dur": 0.5 },
+        { "time": 76, "action": "quote_reveal", "ease": "easeOutCubic", "dur": 0.6 },
+        { "time": 78, "action": "highlight_range", "ease": "easeOutCubic", "dur": 0.4 },
+        { "time": 80, "action": "read_hold", "ease": "linear", "dur": 1.8 }
+      ]
+    },
+    {
+      "scene_id": "S012", "start": 82, "end": 92, "chapter": "总结",
+      "visual_type": "summary",
+      "layout": { "mode": "knowledge_full" },
+      "content": {
+        "title": "今天就做一件事",
+        "points": ["写下你重复做过的三件事", "挑一件写成流程", "发布一次，收集反馈"],
+        "conclusion": "先复用一次，再谈系统。"
+      },
+      "cover_visible": false,
+      "animation_plan": [
+        { "time": 82, "action": "title_in", "ease": "easeOutCubic", "dur": 0.4 },
+        { "time": 83.6, "action": "point_in", "target": 0, "ease": "easeOutCubic", "dur": 0.4 },
+        { "time": 85.2, "action": "point_in", "target": 1, "ease": "easeOutCubic", "dur": 0.4 },
+        { "time": 86.8, "action": "point_in", "target": 2, "ease": "easeOutCubic", "dur": 0.4 },
+        { "time": 89, "action": "conclusion_emphasize", "ease": "easeOutCubic", "dur": 0.6 },
+        { "time": 90.4, "action": "read_hold", "ease": "linear", "dur": 1.6 }
+      ],
+      "sfx": [{ "at": 89, "name": "soft_emphasis", "gain": -20 }]
+    },
+    {
+      "scene_id": "S013", "start": 92, "end": 96, "chapter": "总结",
+      "visual_type": "presenter",
+      "layout": { "mode": "presenter_full" },
+      "content": { "focus": "收尾行动号召" },
+      "cover_visible": false,
+      "animation_plan": [
+        { "time": 92, "action": "subtle_zoom", "ease": "easeOutCubic", "dur": 1 },
+        { "time": 93.6, "action": "keyword_reveal", "ease": "easeOutCubic", "dur": 0.4 },
+        { "time": 94.6, "action": "fade_out_nav", "ease": "easeInQuad", "dur": 0.6 }
+      ]
+    }
+  ]
+}
