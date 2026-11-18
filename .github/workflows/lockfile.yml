@@ -1,0 +1,44 @@
+name: Generate lockfile
+
+# 为什么需要它：
+# package-lock.json（约 92KB、203 个包）记录整棵依赖树的确切版本 + integrity hash，
+# 是 `npm ci` 与“两年后 clone 仍然渲出同一画面”的前提。
+# GitHub API 单次写文件有体积限制，因此由 Action 在云端生成并自动提交。
+# 何时跑：templates/remotion/package.json 变更时（依赖升级后自动重新锁）。
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "templates/remotion/package.json"
+      - ".github/workflows/lockfile.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  lockfile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Generate package-lock.json
+        working-directory: templates/remotion
+        run: npm install --package-lock-only --no-audit --no-fund
+
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add templates/remotion/package-lock.json
+          if git diff --cached --quiet; then
+            echo "lockfile 无变更，跳过提交"
+          else
+            git commit -m "chore: 生成 package-lock.json（npm ci 可复现）[skip ci]"
+            git push
+          fi
