@@ -1,0 +1,117 @@
+{
+  "video_type": "practice",
+  "aspect_ratio": "9:16",
+  "resolution": [1080, 1920],
+  "theme": "dark_gold",
+  "fps": 30,
+  "duration": 58,
+  "cover": {
+    "lines": ["3步做出", "知识视频"],
+    "position": "upper_third",
+    "visible_from_first_frame": true,
+    "duration": 2,
+    "emphasis_index": 0,
+    "export_png": true
+  },
+  "navigation": { "enabled": true, "chapters": ["准备", "操作", "校验", "收尾"], "height_ratio": 0.05, "hide_during_cover": true, "style": "steps" },
+  "subtitles": { "languages": ["zh", "en"], "layout": "chinese_above_english", "safe_area_check": true, "source": "work/subtitle.json" },
+  "audio": { "voice": "work/edited.mp4", "target_lufs": -16 },
+  "storyboard": [
+    {
+      "scene_id": "S001", "start": 0, "end": 2, "chapter": "准备", "visual_type": "cover",
+      "content": { "title_lines": ["3步做出", "知识视频"] }, "cover_visible": true,
+      "animation_plan": [
+        { "time": 0, "action": "cover_static", "ease": "linear", "dur": 0 },
+        { "time": 0.6, "action": "keyword_glow", "ease": "easeOutCubic", "dur": 0.6 }
+      ],
+      "sfx": [{ "at": 0, "name": "soft_impact", "gain": -18 }]
+    },
+    {
+      "scene_id": "S002", "start": 2, "end": 8, "chapter": "准备", "visual_type": "presenter",
+      "content": { "focus": "工具准备" }, "cover_visible": false,
+      "animation_plan": [
+        { "time": 2, "action": "show_navigation", "dur": 0.4 },
+        { "time": 3.2, "action": "subtle_zoom", "ease": "easeOutCubic", "dur": 1.2 },
+        { "time": 6, "action": "read_hold", "ease": "linear", "dur": 2 }
+      ]
+    },
+    {
+      "scene_id": "S003", "start": 8, "end": 15, "chapter": "准备", "visual_type": "cards",
+      "content": { "title": "开工清单", "cards": [{ "title": "原片", "body": "对着镜头讲清一件事" }, { "title": "转写", "body": "拿到词级时间戳" }, { "title": "分镜", "body": "写逐秒安排" }] },
+      "cover_visible": false,
+      "animation_plan": [
+        { "time": 8, "action": "title_in", "dur": 0.35 },
+        { "time": 8.8, "action": "card_in", "target": 0, "ease": "spring", "dur": 0.5 },
+        { "time": 10.4, "action": "card_in", "target": 1, "ease": "spring", "dur": 0.5 },
+        { "time": 12, "action": "card_in", "target": 2, "ease": "spring", "dur": 0.5 },
+        { "time": 13.6, "action": "read_hold", "dur": 1.4 }
+      ]
+    },
+    {
+      "scene_id": "S004", "start": 15, "end": 25, "chapter": "操作", "visual_type": "screencast",
+      "content": { "title": "改 EDL", "focus": "删口误与长停顿" }, "cover_visible": false,
+      "animation_plan": [
+        { "time": 15, "action": "screen_in", "dur": 0.4 },
+        { "time": 17, "action": "zoom_region", "ease": "easeInOutQuad", "dur": 0.5 },
+        { "time": 20, "action": "cursor_guide", "ease": "linear", "dur": 1.2 },
+        { "time": 23, "action": "read_hold", "dur": 1.6 }
+      ],
+      "sfx": [{ "at": 17, "name": "click", "gain": -20 }]
+    },
+    {
+      "scene_id": "S005", "start": 25, "end": 32, "chapter": "操作", "visual_type": "flow_steps",
+      "content": { "title": "三步流水线", "nodes": ["转写", "精剪", "渲染"], "steps_detail": ["词级时间戳", "EDL + 映射", "Remotion 合成"] },
+      "cover_visible": false,
+      "animation_plan": [
+        { "time": 25, "action": "nodes_in", "dur": 0.4 },
+        { "time": 27, "action": "connect_line", "ease": "easeInOutQuad", "dur": 0.5 },
+        { "time": 29.5, "action": "highlight_node", "target": 2, "dur": 0.3 },
+        { "time": 31, "action": "read_hold", "dur": 1.2 }
+      ]
+    },
+    {
+      "scene_id": "S006", "start": 32, "end": 40, "chapter": "校验", "visual_type": "presenter_pip",
+      "content": { "focus": "分镜校验不过就别渲" }, "cover_visible": false,
+      "animation_plan": [
+        { "time": 32, "action": "pip_slide_in", "dur": 0.4 },
+        { "time": 34, "action": "keyword_reveal", "ease": "easeOutCubic", "dur": 0.5 },
+        { "time": 37, "action": "read_hold", "dur": 2.4 }
+      ]
+    },
+    {
+      "scene_id": "S007", "start": 40, "end": 48, "chapter": "校验", "visual_type": "compare",
+      "content": { "title": "两种做法", "left": { "title": "手工剪", "items": ["每条 90 分钟", "风格不统一", "字幕错位"] }, "right": { "title": "流水线", "items": ["每条 12 分钟", "模板一致", "时间轴自动映射"] } },
+      "cover_visible": false,
+      "animation_plan": [
+        { "time": 40, "action": "left_in", "dur": 0.4 },
+        { "time": 41.6, "action": "right_in", "dur": 0.4 },
+        { "time": 44, "action": "diff_highlight", "dur": 0.5 },
+        { "time": 46, "action": "read_hold", "dur": 1.8 }
+      ],
+      "sfx": [{ "at": 40, "name": "whoosh", "gain": -18 }, { "at": 41.6, "name": "whoosh", "gain": -18 }]
+    },
+    {
+      "scene_id": "S008", "start": 48, "end": 54, "chapter": "收尾", "visual_type": "summary",
+      "content": { "title": "记住三句", "points": ["先转写，再剪", "先校验，再渲", "先看首帧"], "conclusion": "封面决定点击。" },
+      "cover_visible": false,
+      "animation_plan": [
+        { "time": 48, "action": "title_in", "dur": 0.35 },
+        { "time": 49, "action": "point_in", "target": 0, "dur": 0.35 },
+        { "time": 50.2, "action": "point_in", "target": 1, "dur": 0.35 },
+        { "time": 51.4, "action": "point_in", "target": 2, "dur": 0.35 },
+        { "time": 52.6, "action": "conclusion_emphasize", "dur": 0.5 },
+        { "time": 53.2, "action": "read_hold", "dur": 0.8 }
+      ],
+      "sfx": [{ "at": 52.6, "name": "soft_emphasis", "gain": -20 }]
+    },
+    {
+      "scene_id": "S009", "start": 54, "end": 58, "chapter": "收尾", "visual_type": "presenter",
+      "content": { "focus": "关注取工程" }, "cover_visible": false,
+      "animation_plan": [
+        { "time": 54, "action": "subtle_zoom", "ease": "easeOutCubic", "dur": 1 },
+        { "time": 55.6, "action": "keyword_reveal", "dur": 0.4 },
+        { "time": 56.6, "action": "fade_out_nav", "ease": "easeInQuad", "dur": 0.6 }
+      ]
+    }
+  ]
+}
