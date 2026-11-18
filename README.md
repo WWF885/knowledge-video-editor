@@ -82,7 +82,13 @@ python3 scripts/run.py --video input.mp4 --out ./我的项目 --ratio 9:16 --the
 | Python 3.9+ | ✅ | 脚本运行 |
 | Node 18+ / Remotion | 渲染需要 | 可视化合成 |
 | faster-whisper 或 openai-whisper | 转写需要 | 无则退化为宿主模型转写 |
-| 中英字体（思源黑体 Heavy 等） | 渲染需要 | 见 `assets/fonts/README.md` |
+| 中英字体（思源黑体 Heavy 等） | 渲染需要 | 见 `assets/README.md` |
+
+安装渲染引擎依赖（仓库已带 `package-lock.json`，用 `npm ci` 锁定版本，保证任何机器渲出同一画面）：
+
+```bash
+cd templates/remotion && npm ci   # 或 npm install
+```
 
 ---
 
@@ -93,8 +99,8 @@ SKILL.md               规则总纲（Agent 入口）
 AGENTS.md              执行协议
 references/            10 份细则
 config/                机器可读配置 + JSON Schema
-scripts/               8 个脚本（分析/转写/剪辑/校验/渲染/质检/编排）
-templates/remotion/    React 渲染引擎
+scripts/               9 个文件（8 个脚本 + 公共层 kve_common.py）
+templates/remotion/    React 渲染引擎（含 package-lock）
 examples/              4 类导演计划示例
 ```
 
