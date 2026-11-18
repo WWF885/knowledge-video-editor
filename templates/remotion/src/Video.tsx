@@ -35,7 +35,6 @@ const sceneComponent = (
     );
   }
   if (scene.visual_type === "broll" || scene.visual_type === "screencast") {
-    // 有素材时用素材铺满；无素材时退回通用信息画面，避免黑屏。
     return <VisualScene scene={scene} theme={props.theme} layout={props.layout} vertical={vertical} />;
   }
   return <VisualScene scene={scene} theme={props.theme} layout={props.layout} vertical={vertical} />;
@@ -75,9 +74,11 @@ export const KnowledgeVideo: React.FC<VideoProps> = (props) => {
                 startFrom={Math.round(Number(scene.content?.mediaStart ?? scene.start) * fps)}
                 theme={props.theme}
                 vertical={vertical}
-                focus={Number(sb.presenter?.badge?.focus_y ?? 0.34)}
-                focusX={Number(sb.presenter?.badge?.focus_x ?? 0.62)}
-                zoom={Number(sb.presenter?.badge?.zoom ?? 1.0)}
+                focus={Number(sb.presenter?.badge?.focus_y ?? 0.30)}
+                focusX={Number(sb.presenter?.badge?.focus_x ?? 0.58)}
+                zoom={Number(sb.presenter?.badge?.zoom ?? 0.95)}
+                srcAspect={Number(props.presenterAspect ?? 0.5625)}
+                anchorY={Number(sb.presenter?.badge?.anchor_y ?? 0.42)}
                 size={scene.visual_type === "cover" ? (vertical ? 176 : 216) : undefined}
                 top={scene.visual_type === "cover" ? (vertical ? 300 : 136) : undefined}
               />
