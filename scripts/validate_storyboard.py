@@ -11,6 +11,7 @@
   - 每秒有安排（覆盖率）
   - 单一构图连续 ≤ 9s
   - 双语字幕配置与安全区开关
+  - 每镜必有真人（V1.0.1）
 
 用法：
     python3 scripts/validate_storyboard.py --storyboard work/storyboard.json
@@ -199,6 +200,26 @@ def check_theme(sb, r: Result):
         r.err("THEME", f"theme「{sb.get('theme')}」不合法", "dark_gold / pearl_green")
 
 
+def check_presenter(sb, r: Result):
+    """每个画面都必须有真人：真人镜头本身，其余镜头必须叠加 V21 圆形头像。"""
+    scenes = sb.get("storyboard") or []
+    if not scenes:
+        return
+    presenter_like = {"presenter", "presenter_pip"}
+    no_human = [s.get("scene_id", "?") for s in scenes
+                if s.get("visual_type") not in presenter_like and s.get("avatar") is False]
+    if no_human:
+        r.err("NO_PRESENTER", f"{len(no_human)} 个镜头没有任何真人：{', '.join(no_human[:6])}",
+              "除 presenter 外，其余镜头都要叠加右上角圆形头像（avatar 缺省即开启）")
+    has_full = any(s.get("visual_type") in presenter_like for s in scenes)
+    if not has_full:
+        r.warn("NO_FULL_PRESENTER", "全片没有真人全屏镜头，只有圆形头像",
+               "建议至少 1 个 presenter 镜头，保留真人语气与情绪")
+    # 头像与导航条共存：封面结束后头像区域不得压住内容
+    if sb.get("presenter", {}).get("badge", {}).get("avoid_navigation") is False:
+        r.warn("BADGE_NAV", "圆形头像可能与导航条重叠", "竖屏 top≥312，横屏 top≥152")
+
+
 def check_ratio(sb, r: Result):
     ratio, res = sb.get("aspect_ratio"), sb.get("resolution") or []
     if ratio == "16:9" and res != [1920, 1080]:
@@ -232,6 +253,7 @@ def main():
         check_nav(sb, r)
         check_subs(sb, r)
         check_scenes(sb, r)
+        check_presenter(sb, r)
 
     if args.json:
         print(json.dumps({"ok": r.ok, "errors": r.errors, "warnings": r.warnings},
