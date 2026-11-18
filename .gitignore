@@ -1,0 +1,30 @@
+# 运行时产物
+work/
+output/*
+!output/.gitkeep
+*.mp4
+*.mov
+*.wav
+*.m4a
+
+# Remotion
+templates/remotion/node_modules/
+templates/remotion/out/
+templates/remotion/.remotion/
+
+# 素材二进制（授权各异，不入库）
+assets/fonts/*.ttf
+assets/fonts/*.otf
+assets/fonts/*.ttc
+assets/music/*.mp3
+assets/music/*.wav
+assets/sound-effects/*.wav
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# 系统
+.DS_Store
+Thumbs.db
