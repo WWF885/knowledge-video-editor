@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """quality_check.py · 自动质检
 
-机器查客观项（解码/参数/黑帧/响度/字幕宽度/动效覆盖/音效密度），
-输出百分制评分 + 15 项硬指标清单 + 扣分与修复建议（Markdown）。
+机器查客观项（解码/参数/黑帧/响度/字幕宽度/动效覆盖/音效密度/真人覆盖），
+输出百分制评分 + 16 项硬指标清单 + 扣分与修复建议（Markdown）。
 
 用法：
     python3 scripts/quality_check.py --video output/01_最终成片.mp4 \
@@ -30,7 +30,7 @@ DEDUCT = {
 
 class Report:
     def __init__(self):
-        self.items = []       # 15 项硬指标
+        self.items = []       # 16 项硬指标
         self.deduct = []      # 扣分明细
         self.notes = []
 
@@ -103,7 +103,7 @@ def black_check(video, rep):
     return hits
 
 
-def frame_luma(path, t):
+def frame_luma(path, t) -> float | None:
     try:
         from PIL import Image
     except Exception:
@@ -155,7 +155,7 @@ def theme_check(video, sb, meta_out, rep):
     with tempfile.TemporaryDirectory() as td:
         out = Path(td) / "f.png"
         k.run(["ffmpeg", "-y", "-v", "error", "-ss", f"{t}", "-i", str(video),
-              "-frames:v", "1", "-vf", "scale=160:-1", str(out)])
+               "-frames:v", "1", "-vf", "scale=160:-1", str(out)])
         if not out.exists():
             return None
         im = Image.open(out).convert("RGB").resize((32, 18))
@@ -266,6 +266,12 @@ def storyboard_checks(sb, rep):
         if span > 9.5 and t not in ("presenter", "screencast", "broll"):
             rep.cut("layout_run", f"{t} 连续 {span:.1f}s", "在 6–9s 处插入知识镜头或换构图")
 
+    human_ok = all(
+        s.get("visual_type") in ("presenter", "presenter_pip") or s.get("avatar") is not False
+        for s in scenes
+    )
+    rep.hard("每个画面都有真人（全屏或右上角圆形头像）", human_ok,
+             "全部镜头有真人" if human_ok else "存在无真人镜头")
     rep.hard("核心知识点得到有效可视化", len({s.get('visual_type') for s in scenes}) >= 5,
              f"{len({s.get('visual_type') for s in scenes})} 种视觉形式")
     rep.hard("全片使用统一高级配色", sb.get("theme") in ("dark_gold", "pearl_green"), sb.get("theme"))
