@@ -139,7 +139,6 @@ def main():
     log = k.Log()
     sb = k.read_json(args.storyboard)
 
-    # 先校验，不通过不渲
     if not args.skip_validate:
         r = k.run([sys.executable, str(k.ROOT / "scripts" / "validate_storyboard.py"),
                    "--storyboard", args.storyboard])
@@ -158,8 +157,17 @@ def main():
         httpd, port = _serve_dir(src_path.parent)
         props["presenterVideo"] = f"http://127.0.0.1:{port}/{src_path.name}"
         props["presenterLocalPath"] = str(src_path)
+        # 头像取景需要真实宽高比，否则圆内会裁掉额头/肩膀
+        try:
+            pm = k.probe(src_path)
+            if pm.get("width") and pm.get("height"):
+                props["presenterAspect"] = round(pm["width"] / pm["height"], 4)
+        except Exception:
+            pass
     work = k.ensure_dir(Path(args.out).parent / "work" if Path(args.out).parent != Path(".") else "work")
     props_path = Path(work) / "render_props.json"
+    if not props_path.is_absolute():
+        props_path = props_path.resolve()
     k.write_json(props_path, props)
     log(f"props → {props_path}（主题 {props['theme']['id']}，"
         f"{props['resolution'][0]}×{props['resolution'][1]}，{len(sb.get('storyboard', []))} 镜头）")
@@ -174,7 +182,7 @@ def main():
     out_dir = k.ensure_dir(Path(args.out).parent)
     if args.cover:
         k.ensure_dir(Path(args.cover).parent)
-        if render_still(str(props_path), args.cover, log):
+        if render_still(str(props_path), str(Path(args.cover).resolve()), log):
             log(f"首帧封面 → {args.cover}", "ok")
 
     if args.cover_only:
