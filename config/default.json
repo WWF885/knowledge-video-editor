@@ -1,6 +1,6 @@
 {
   "$comment": "全局默认参数。所有脚本从这里读，不要把数值写死在代码里。",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "defaults": {
     "aspect_ratio": "auto",
     "theme": "auto",
@@ -11,17 +11,35 @@
       "target_lufs": -16,
       "true_peak": -1.5,
       "lra": 11,
-      "denoise": { "enabled": true, "nf": -25, "nr": 12 },
+      "denoise": {
+        "enabled": true,
+        "nf": -25,
+        "nr": 12
+      },
       "highpass_hz": 80
     },
-    "bgm": { "enabled": true, "volume_db": -22, "duck_db": -30, "release_s": 0.3 },
-    "sfx": { "density_per_10s": [1, 3], "min_gap_s": 0.8 },
+    "bgm": {
+      "enabled": true,
+      "volume_db": -22,
+      "duck_db": -30,
+      "release_s": 0.3
+    },
+    "sfx": {
+      "density_per_10s": [
+        1,
+        3
+      ],
+      "min_gap_s": 0.8
+    },
     "cover": {
       "duration_s": 2.0,
       "max_lines": 2,
       "max_chars_per_line": 4,
       "font_weight": "heavy",
-      "push_zoom": [1.0, 1.04],
+      "push_zoom": [
+        1.0,
+        1.04
+      ],
       "export_png": true
     },
     "navigation": {
@@ -31,10 +49,20 @@
       "chapters_max": 6,
       "chapter_name_max_chars": 6,
       "height_ratio_max": 0.08,
-      "transition_ms": [300, 500],
+      "transition_ms": [
+        300,
+        500
+      ],
       "hide_during_cover": true
     },
-    "storyboard": { "evaluate_composition_every_s": 3, "max_same_layout_s": 9, "read_hold_ratio": [0.15, 0.25] },
+    "storyboard": {
+      "evaluate_composition_every_s": 3,
+      "max_same_layout_s": 9,
+      "read_hold_ratio": [
+        0.15,
+        0.25
+      ]
+    },
     "subtitles": {
       "layout": "chinese_above_english",
       "zh_max_chars_per_line": 18,
@@ -42,7 +70,10 @@
       "max_emphasis_per_line": 1,
       "sync_tolerance_s": 0.15
     },
-    "quality": { "pass_score": 90, "auto_fix_max_rounds": 2 },
+    "quality": {
+      "pass_score": 90,
+      "auto_fix_max_rounds": 2
+    },
     "paths": {
       "work_dir": "work",
       "output_dir": "output",
@@ -57,6 +88,37 @@
         "08_自动质检报告.md",
         "09_可编辑视频工程"
       ]
+    },
+    "presenter": {
+      "$comment": "真人常驻：每个画面必须有真人；知识画面用右上角圆形头像",
+      "always_visible": true,
+      "badge": {
+        "enabled": true,
+        "shape": "circle",
+        "anchor": "top_right",
+        "vertical": {
+          "diameter_px": 192,
+          "margin_px": 48,
+          "top_px": 312
+        },
+        "horizontal": {
+          "diameter_px": 240,
+          "margin_px": 52,
+          "top_px": 152
+        },
+        "focus_y": 0.34,
+        "focus_x": 0.62,
+        "zoom": 1.0,
+        "crop": "头发 + 全脸 + 上肩，禁止裁额头与下巴",
+        "border": "3px 白色描边 + 柔和投影",
+        "avoid": [
+          "导航条",
+          "标题",
+          "知识卡片",
+          "字幕"
+        ]
+      },
+      "text_scale": 1.12
     }
   }
 }

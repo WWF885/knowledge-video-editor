@@ -59,6 +59,25 @@
         "source": { "type": "string" }
       }
     },
+    "presenter": {
+      "type": "object",
+      "properties": {
+        "always_visible": { "type": "boolean" },
+        "text_scale": { "type": "number" },
+        "badge": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean" },
+            "focus_x": { "type": "number" },
+            "focus_y": { "type": "number" },
+            "zoom": { "type": "number" },
+            "diameter_px": { "type": "number" },
+            "top_px": { "type": "number" },
+            "margin_px": { "type": "number" }
+          }
+        }
+      }
+    },
     "audio": {
       "type": "object",
       "properties": {
@@ -78,6 +97,10 @@
           "start": { "type": "number", "minimum": 0 },
           "end": { "type": "number", "minimum": 0 },
           "chapter": { "type": "string" },
+          "avatar": {
+            "type": "boolean",
+            "description": "非真人镜头是否叠加右上角圆形头像，缺省 true（每个画面都要有真人）"
+          },
           "visual_type": {
             "enum": [
               "cover", "presenter", "presenter_pip", "keyword", "flow_steps", "mindmap",

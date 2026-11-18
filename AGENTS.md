@@ -67,3 +67,10 @@ check_environment → analyze_video → 内容理解 → transcribe → edit_vid
 ## 7. 与人类协作的唯一例外
 
 用户明确要求"每步确认"时，改为交互模式，在 `director_plan` 与 `storyboard` 两处暂停等确认。默认不停。
+
+
+## 真人常驻（V1.0.1 起强制）
+
+1. 每一镜都要有人：`presenter` / `presenter_pip` 之外，其余镜头一律叠加右上角圆形头像（含封面，封面用小一号）。
+2. 圆内必须同时露出头发、完整五官、上肩；人脸偏小的机位调大 `zoom`。
+3. 头像永不压字：竖屏内容 `paddingTop ≥ 528`，横屏 `paddingRight = padX + 344`。
