@@ -1,0 +1,34 @@
+{
+  "id": "pearl_green",
+  "name": "珍珠墨绿",
+  "use_for": ["成长", "认知", "文旅", "教育", "生活方式", "情感"],
+  "colors": {
+    "background": "#F5F2EB",
+    "surface": "#E4E8E5",
+    "deep": "#173C39",
+    "accent": "#A17E45",
+    "text_primary": "#173C39",
+    "text_secondary": "#62736E",
+    "success": "#2F6B5A",
+    "warning": "#B4703F",
+    "divider": "rgba(23,60,57,0.12)"
+  },
+  "rules": {
+    "max_accent_usage_per_frame": 2,
+    "card_border": "rgba(23,60,57,0.10)",
+    "card_radius_px": 18,
+    "shadow": "0 12px 32px rgba(23,60,57,0.12)",
+    "forbid_pure_black": true,
+    "forbid_pure_white": true
+  },
+  "typography": {
+    "font_family": "Source Han Serif SC, Noto Serif SC, Songti SC, Source Han Sans SC, sans-serif",
+    "title_px": { "horizontal": 128, "vertical": 100 },
+    "chapter_px": { "horizontal": 72, "vertical": 66 },
+    "point_px": { "horizontal": 52, "vertical": 46 },
+    "body_px": { "horizontal": 32, "vertical": 30 },
+    "caption_px": { "horizontal": 22, "vertical": 20 },
+    "subtitle_zh_px": { "horizontal": 54, "vertical": 50 },
+    "subtitle_en_px": { "horizontal": 34, "vertical": 31 }
+  }
+}

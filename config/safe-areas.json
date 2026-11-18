@@ -1,0 +1,28 @@
+{
+  "$comment": "安全区唯一真源。平台改版时只改这里。",
+  "horizontal_16_9": {
+    "resolution": [1920, 1080],
+    "safe": { "top": 24, "bottom": 20, "left": 96, "right": 96 },
+    "navigation_bar": { "y": 0, "height": 84, "max_height": 86 },
+    "subtitle_zone": { "y": 940, "height": 90 },
+    "content_zone": { "y": 96, "height": 844 }
+  },
+  "vertical_9_16": {
+    "resolution": [1080, 1920],
+    "safe": { "top": 220, "bottom": 220, "left": 64, "right": 64 },
+    "navigation_bar": { "y": 230, "height": 76, "max_height": 90, "optional": true },
+    "subtitle_zone": { "y": 1450, "height": 250 },
+    "content_zone": { "y": 260, "height": 1160 }
+  },
+  "platform_overlays": {
+    "douyin":   { "top": 220, "bottom": 260, "right": 130 },
+    "xiaohongshu": { "top": 180, "bottom": 240, "right": 110 },
+    "wechat_channels": { "top": 200, "bottom": 300, "right": 0 },
+    "bilibili_horizontal": { "top": 40, "bottom": 90, "right": 0 },
+    "youtube_horizontal": { "top": 0, "bottom": 60, "right": 0 }
+  },
+  "checks": {
+    "forbid_text_in_overlay": true,
+    "forbid_subtitle_below": 1700
+  }
+}

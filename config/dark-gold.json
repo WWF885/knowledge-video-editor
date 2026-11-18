@@ -1,0 +1,33 @@
+{
+  "id": "dark_gold",
+  "name": "深空黑金",
+  "use_for": ["科技", "商业", "AI", "管理", "投资", "效率"],
+  "colors": {
+    "background": "#101820",
+    "surface": "#26323E",
+    "accent": "#D5B477",
+    "text_primary": "#F6F3EC",
+    "text_secondary": "#9AA9B6",
+    "success": "#7FA88B",
+    "warning": "#C98B5E",
+    "divider": "rgba(246,243,236,0.12)"
+  },
+  "rules": {
+    "max_accent_usage_per_frame": 2,
+    "card_border": "rgba(255,255,255,0.08)",
+    "card_radius_px": 18,
+    "shadow": "0 12px 32px rgba(0,0,0,0.35)",
+    "forbid_pure_black": true,
+    "forbid_pure_white": true
+  },
+  "typography": {
+    "font_family": "Source Han Sans SC, Noto Sans SC, PingFang SC, sans-serif",
+    "title_px": { "horizontal": 132, "vertical": 104 },
+    "chapter_px": { "horizontal": 72, "vertical": 68 },
+    "point_px": { "horizontal": 52, "vertical": 46 },
+    "body_px": { "horizontal": 32, "vertical": 30 },
+    "caption_px": { "horizontal": 22, "vertical": 20 },
+    "subtitle_zh_px": { "horizontal": 54, "vertical": 50 },
+    "subtitle_en_px": { "horizontal": 34, "vertical": 31 }
+  }
+}

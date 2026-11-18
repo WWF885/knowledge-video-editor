@@ -1,0 +1,123 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/WWF885/knowledge-video-editor/config/storyboard.schema.json",
+  "title": "Knowledge Video Editor Storyboard",
+  "type": "object",
+  "required": ["video_type", "aspect_ratio", "resolution", "theme", "cover", "navigation", "subtitles", "storyboard"],
+  "additionalProperties": true,
+  "properties": {
+    "video_type": { "enum": ["knowledge", "practice", "analysis", "opinion", "story", "industry"] },
+    "aspect_ratio": { "enum": ["16:9", "9:16", "1:1", "4:3", "3:4"] },
+    "resolution": {
+      "type": "array",
+      "items": { "type": "integer", "minimum": 480 },
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "theme": { "enum": ["dark_gold", "pearl_green"] },
+    "fps": { "type": "number", "minimum": 1 },
+    "duration": { "type": "number", "minimum": 0 },
+    "cover": {
+      "type": "object",
+      "required": ["lines", "visible_from_first_frame"],
+      "properties": {
+        "lines": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 2,
+          "items": { "type": "string", "minLength": 1, "maxLength": 4 }
+        },
+        "position": { "enum": ["center", "upper_third", "left", "right"] },
+        "visible_from_first_frame": { "const": true },
+        "duration": { "type": "number", "minimum": 0.5, "maximum": 4 },
+        "emphasis_index": { "type": "integer", "minimum": 0, "maximum": 1 },
+        "export_png": { "type": "boolean" }
+      }
+    },
+    "navigation": {
+      "type": "object",
+      "required": ["enabled", "chapters"],
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "chapters": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 6,
+          "items": { "type": "string", "minLength": 2, "maxLength": 6 }
+        },
+        "height_ratio": { "type": "number", "maximum": 0.08 },
+        "style": { "enum": ["progress", "steps", "chapters", "timeline"] }
+      }
+    },
+    "subtitles": {
+      "type": "object",
+      "required": ["languages", "layout"],
+      "properties": {
+        "languages": { "type": "array", "items": { "enum": ["zh", "en"] }, "minItems": 1 },
+        "layout": { "const": "chinese_above_english" },
+        "safe_area_check": { "type": "boolean" },
+        "source": { "type": "string" }
+      }
+    },
+    "audio": {
+      "type": "object",
+      "properties": {
+        "voice": { "type": "string" },
+        "bgm": { "type": "string" },
+        "target_lufs": { "type": "number" }
+      }
+    },
+    "storyboard": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["scene_id", "start", "end", "visual_type"],
+        "properties": {
+          "scene_id": { "type": "string", "pattern": "^S[0-9]{3,}$" },
+          "start": { "type": "number", "minimum": 0 },
+          "end": { "type": "number", "minimum": 0 },
+          "chapter": { "type": "string" },
+          "visual_type": {
+            "enum": [
+              "cover", "presenter", "presenter_pip", "keyword", "flow_steps", "mindmap",
+              "compare", "chart", "org_tree", "timeline", "screencast", "map",
+              "icon_story", "cards", "citation", "simulation", "broll",
+              "whiteboard", "number_roll", "causal_chain", "summary"
+            ]
+          },
+          "layout": { "type": "object" },
+          "content": { "type": "object" },
+          "cover_visible": { "type": "boolean" },
+          "animation_plan": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["time", "action"],
+              "properties": {
+                "time": { "type": "number", "minimum": 0 },
+                "action": { "type": "string" },
+                "ease": { "enum": ["linear", "easeOutCubic", "easeInOutQuad", "easeInQuad", "spring"] },
+                "dur": { "type": "number", "minimum": 0, "maximum": 4 },
+                "target": { "type": ["integer", "string"] }
+              }
+            }
+          },
+          "sfx": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["at", "name"],
+              "properties": {
+                "at": { "type": "number" },
+                "name": { "type": "string" },
+                "gain": { "type": "number" }
+              }
+            }
+          },
+          "subtitle_ref": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    }
+  }
+}

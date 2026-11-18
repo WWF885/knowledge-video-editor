@@ -1,0 +1,30 @@
+{
+  "id": "horizontal",
+  "aspect_ratio": "16:9",
+  "resolution": [1920, 1080],
+  "navigation": { "enabled": true, "height_px": 84, "top_offset_px": 26 },
+  "regions": {
+    "navigation": [0, 0, 1920, 84],
+    "content": [96, 100, 1824, 830],
+    "subtitle_zh_baseline_y": 968,
+    "subtitle_en_baseline_y": 1014,
+    "margin_x": 96,
+    "margin_y": 96
+  },
+  "layouts": {
+    "presenter_full": { "box": [0, 0, 1920, 1080] },
+    "presenter_side": { "box": [1230, 120, 620, 720], "corner_radius": 24 },
+    "knowledge_full": { "box": [96, 110, 1728, 800] },
+    "split_horizontal": { "left": [96, 110, 780, 800], "right": [920, 110, 860, 800] },
+    "split_vertical": { "top": [96, 110, 1728, 380], "bottom": [96, 520, 1728, 390] },
+    "cards_grid": { "cols": 2, "rows": 2, "gap_px": 32, "box": [96, 120, 1728, 760] },
+    "chart_area": { "plot": [96, 160, 1120, 680], "conclusion": [1260, 160, 560, 680] },
+    "timeline": { "axis_y": 560, "start_x": 160, "end_x": 1760 }
+  },
+  "component_rules": {
+    "flow_direction": "horizontal",
+    "mindmap_direction": "radial",
+    "compare_orientation": "left_right",
+    "max_steps_per_row": 5
+  }
+}

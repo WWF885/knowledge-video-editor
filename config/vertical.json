@@ -1,0 +1,33 @@
+{
+  "id": "vertical",
+  "aspect_ratio": "9:16",
+  "resolution": [1080, 1920],
+  "navigation": { "enabled": true, "height_px": 76, "top_offset_px": 230 },
+  "regions": {
+    "platform_top_safe": [0, 0, 1080, 220],
+    "platform_bottom_safe": [0, 1700, 1080, 220],
+    "content": [64, 260, 952, 1160],
+    "subtitle_zh_baseline_y": 1520,
+    "subtitle_en_baseline_y": 1576,
+    "margin_x": 64,
+    "margin_y": 48
+  },
+  "layouts": {
+    "presenter_full": { "box": [0, 0, 1080, 1920] },
+    "presenter_top": { "box": [390, 260, 300, 300], "corner_radius": 150 },
+    "presenter_bottom": { "box": [0, 1150, 1080, 560], "corner_radius": 0 },
+    "knowledge_full": { "box": [64, 280, 952, 1080] },
+    "split_horizontal": { "top": [64, 260, 952, 540], "bottom": [64, 850, 952, 520] },
+    "split_vertical": { "top": [64, 260, 952, 560], "bottom": [64, 860, 952, 500] },
+    "cards_stack": { "cols": 1, "rows": 3, "gap_px": 28, "box": [64, 320, 952, 900] },
+    "chart_area": { "plot": [64, 320, 952, 600], "conclusion": [64, 980, 952, 320] },
+    "timeline": { "axis_x": 260, "start_y": 320, "end_y": 1300 }
+  },
+  "component_rules": {
+    "flow_direction": "vertical",
+    "mindmap_direction": "top_down",
+    "compare_orientation": "top_bottom",
+    "max_steps_per_column": 4,
+    "one_point_per_screen": true
+  }
+}
