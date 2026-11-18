@@ -63,6 +63,18 @@ def ensure_remotion(log):
     return True
 
 
+
+def _serve_dir(directory: Path):
+    """起一个临时静态服务：Remotion 只能稳定地从 HTTP 或 public/ 读媒体。"""
+    import http.server, socketserver, threading
+    handler = lambda *a, **kw: http.server.SimpleHTTPRequestHandler(*a, directory=str(directory), **kw)
+    httpd = socketserver.ThreadingTCPServer(("127.0.0.1", 0), handler)
+    port = httpd.server_address[1]
+    th = threading.Thread(target=httpd.serve_forever, daemon=True)
+    th.start()
+    return httpd, port
+
+
 def render_still(props_path, out_png, log) -> bool:
     cmd = ["npx", "remotion", "still", "src/index.ts", "KnowledgeVideo", out_png,
            f"--props={props_path}", "--frame=0", "--log=error"]
@@ -112,6 +124,7 @@ def main():
     ap.add_argument("--storyboard", required=True)
     ap.add_argument("--ratio", default=None, help="覆盖 storyboard 里的比例")
     ap.add_argument("--audio", help="精剪后的原声（混音源）")
+    ap.add_argument("--presenter", help="真人素材路径，默认等于 --audio")
     ap.add_argument("--bgm", help="背景音乐路径")
     ap.add_argument("--bgm-db", type=float, default=-22)
     ap.add_argument("--subtitles", help="subtitle.json 路径，默认读 storyboard.subtitles.source")
@@ -137,6 +150,14 @@ def main():
         log("分镜校验通过", "ok")
 
     props = build_props(sb, args.ratio, args.subtitles)
+    # 精剪后的原声视频同时就是真人素材：分镜里的 presenter 镜头与圆形头像直接取它
+    presenter = args.presenter or args.audio
+    httpd = None
+    if presenter and Path(presenter).exists():
+        src_path = Path(presenter).resolve()
+        httpd, port = _serve_dir(src_path.parent)
+        props["presenterVideo"] = f"http://127.0.0.1:{port}/{src_path.name}"
+        props["presenterLocalPath"] = str(src_path)
     work = k.ensure_dir(Path(args.out).parent / "work" if Path(args.out).parent != Path(".") else "work")
     props_path = Path(work) / "render_props.json"
     k.write_json(props_path, props)
@@ -157,6 +178,7 @@ def main():
             log(f"首帧封面 → {args.cover}", "ok")
 
     if args.cover_only:
+        if httpd: httpd.shutdown()
         return
 
     silent = Path(out_dir) / "_silent.mp4"
@@ -164,6 +186,7 @@ def main():
         sys.exit(5)
     log(f"画面渲完 → {silent}", "ok")
 
+    if httpd: httpd.shutdown()
     if args.silent_only or not args.audio:
         if args.audio is None:
             log("未提供 --audio，交付无声画面（不合格，需补音）", "warn")
