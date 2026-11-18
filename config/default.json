@@ -1,6 +1,6 @@
 {
   "$comment": "全局默认参数。所有脚本从这里读，不要把数值写死在代码里。",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "defaults": {
     "aspect_ratio": "auto",
     "theme": "auto",
@@ -53,7 +53,10 @@
         300,
         500
       ],
-      "hide_during_cover": true
+      "hide_during_cover": true,
+      "style": "pill_floating_chip",
+      "active_indicator": "sliding_chip",
+      "progress_line": "bottom_hairline"
     },
     "storyboard": {
       "evaluate_composition_every_s": 3,
@@ -90,7 +93,7 @@
       ]
     },
     "presenter": {
-      "$comment": "真人常驻：每个画面必须有真人；知识画面用右上角圆形头像",
+      "$comment": "真人常驻：每个画面必须有真人；知识画面用右上角圆形头像。V1.0.2：按源片真实宽高比取景，圆内必须露出头发+全脸+双肩",
       "always_visible": true,
       "badge": {
         "enabled": true,
@@ -99,17 +102,19 @@
         "vertical": {
           "diameter_px": 192,
           "margin_px": 48,
-          "top_px": 312
+          "top_px": 316
         },
         "horizontal": {
           "diameter_px": 240,
           "margin_px": 52,
           "top_px": 152
         },
-        "focus_y": 0.34,
-        "focus_x": 0.62,
-        "zoom": 1.0,
-        "crop": "头发 + 全脸 + 上肩，禁止裁额头与下巴",
+        "focus_y": 0.3,
+        "focus_x": 0.58,
+        "anchor_y": 0.42,
+        "zoom": 1,
+        "zoom_semantics": "内层画面宽度/圆直径；1.0=露出头发+全脸+双肩，1.2–1.5=人物偏小时放大，>1.6=头肩特写",
+        "crop": "头发 + 全脸 + 双肩，禁止裁额头与下巴；下巴以下至少留 25% 画幅给肩颈",
         "border": "3px 白色描边 + 柔和投影",
         "avoid": [
           "导航条",
