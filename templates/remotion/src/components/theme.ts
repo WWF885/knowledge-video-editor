@@ -52,21 +52,10 @@ export type Storyboard = {
     visible_from_first_frame?: boolean;
   };
   navigation: { enabled: boolean; chapters: string[]; height_ratio?: number; hide_during_cover?: boolean };
-  subtitles: { languages: string[]; layout: string; safe_area_check?: boolean; source?: string };
+  subtitles: { languages: string[]; layout: string; safe_area_check?: boolean };
   presenter?: {
     always_visible?: boolean;
-    badge?: {
-      enabled?: boolean;
-      shape?: string;
-      anchor?: string;
-      focus_x?: number;
-      focus_y?: number;
-      zoom?: number;
-      anchor_y?: number;
-      diameter_px?: number;
-      top_px?: number;
-      margin_px?: number;
-    };
+    badge?: { enabled?: boolean; focus_x?: number; focus_y?: number; head_ratio?: number; zoom?: number; diameter_px?: number; top_px?: number; margin_px?: number };
   };
   storyboard: Scene[];
 };

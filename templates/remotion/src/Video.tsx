@@ -20,6 +20,8 @@ const sceneComponent = (
         lines={scene.content?.title_lines ?? props.storyboard.cover.lines}
         emphasisIndex={props.storyboard.cover.emphasis_index ?? 1}
         vertical={vertical}
+        videoSrc={props.presenterVideo}
+        startFrom={0}
       />
     );
   }
@@ -35,6 +37,7 @@ const sceneComponent = (
     );
   }
   if (scene.visual_type === "broll" || scene.visual_type === "screencast") {
+    // 有素材时用素材铺满；无素材时退回通用信息画面，避免黑屏。
     return <VisualScene scene={scene} theme={props.theme} layout={props.layout} vertical={vertical} />;
   }
   return <VisualScene scene={scene} theme={props.theme} layout={props.layout} vertical={vertical} />;
@@ -58,7 +61,8 @@ export const KnowledgeVideo: React.FC<VideoProps> = (props) => {
   const chapters = sb.navigation?.chapters ?? [];
   const activeIdx = Math.max(0, chapters.indexOf(activeScene?.chapter ?? chapters[0]));
 
-  const subs = props.subtitles?.items ?? [];
+  // 封面期间不出现字幕：只保留封面结束之后的句
+  const subs = (props.subtitles?.items ?? []).filter((it) => it.start >= coverEnd - 0.05);
 
   return (
     <AbsoluteFill style={{ backgroundColor: props.theme.colors.background }}>
@@ -68,19 +72,21 @@ export const KnowledgeVideo: React.FC<VideoProps> = (props) => {
         return (
           <Sequence key={scene.scene_id} from={from} durationInFrames={dur} name={scene.scene_id}>
             {sceneComponent(scene, props, vertical)}
-            {isFullPresenter(scene) ? null : (
+            {isFullPresenter(scene) || scene.visual_type === "cover" ? null : (
               <PresenterBadge
                 src={props.presenterVideo ?? ""}
                 startFrom={Math.round(Number(scene.content?.mediaStart ?? scene.start) * fps)}
                 theme={props.theme}
                 vertical={vertical}
-                focus={Number(sb.presenter?.badge?.focus_y ?? 0.30)}
-                focusX={Number(sb.presenter?.badge?.focus_x ?? 0.58)}
-                zoom={Number(sb.presenter?.badge?.zoom ?? 0.95)}
+                focus={Number(sb.presenter?.badge?.focus_y ?? 0.33)}
+                focusX={Number(sb.presenter?.badge?.focus_x ?? 0.55)}
+                headRatio={Number(sb.presenter?.badge?.head_ratio ?? 0.30)}
+                zoom={
+                  sb.presenter?.badge?.zoom == null
+                    ? undefined
+                    : Number(sb.presenter?.badge?.zoom)
+                }
                 srcAspect={Number(props.presenterAspect ?? 0.5625)}
-                anchorY={Number(sb.presenter?.badge?.anchor_y ?? 0.42)}
-                size={scene.visual_type === "cover" ? (vertical ? 176 : 216) : undefined}
-                top={scene.visual_type === "cover" ? (vertical ? 300 : 136) : undefined}
               />
             )}
           </Sequence>

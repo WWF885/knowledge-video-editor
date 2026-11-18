@@ -11,31 +11,28 @@ type Props = {
   vertical?: boolean;
   /** 圆直径，缺省竖屏 192 / 横屏 240 */
   size?: number;
-  /** 人脸中心在源画面高度的比例位置（竖屏口播常见 0.28–0.34） */
+  /** 人脸中心在源画面高度的比例位置 */
   focus?: number;
   /** 人脸中心在源画面宽度的比例位置 */
   focusX?: number;
-  /**
-   * 取景倍数 = 内层画面宽度 / 圆直径。
-   * 0.85–1.0：露出头发 + 全脸 + 双肩（推荐）；
-   * 1.1–1.4：人物在画面里偏小时放大；
-   * >1.5：只剩头肩特写（会牺牲肩膀，慎用）
-   */
+  /** 头部高度（发顶→下巴）占源画面高度的比例，量一次即可，缺省 0.30 */
+  headRatio?: number;
+  /** 取景倍数（内层宽度 / 圆直径）。缺省按 headRatio 自动算，且不会 < 1（绝不越出原片） */
   zoom?: number;
-  /** 源视频宽高比（width/height），用于按比例推算内层高度 */
+  /** 源视频宽高比（width/height） */
   srcAspect?: number;
   /** 头像与画面右边缘的距离 */
   margin?: number;
   /** 距画面顶部的距离 */
   top?: number;
-  /** 人脸中心在圆内的纵向位置（0.42 圆心略下，上方留给头发） */
-  anchorY?: number;
 };
 
 /**
- * 真人圆形头像（右上角常驻）。
- * 取景要求：圆内必须露出头发 + 完整五官 + 双肩，不允许裁额头或下巴。
- * 位置要求：压在导航条下方、内容区之上，任何情况下不遮挡标题与知识卡片。
+ * 真人圆形头像（右上角常驻，V1.0.3 自动取景）。
+ * 规则：
+ *  1) 圆内必须同时露出头发、完整五官（含下巴）、双肩；
+ *  2) 取景窗口绝不越出原片画面（start 夹在 [0, 1-window] 内，zoom 不小于 1）；
+ *  3) 头发顶部固定留 6% 窗口高度，剩余全部给肩颈。
  */
 export const PresenterBadge: React.FC<Props> = ({
   src,
@@ -43,13 +40,13 @@ export const PresenterBadge: React.FC<Props> = ({
   theme,
   vertical,
   size,
-  focus = 0.30,
-  focusX = 0.58,
-  zoom = 0.95,
+  focus = 0.33,
+  focusX = 0.55,
+  headRatio = 0.30,
+  zoom,
   srcAspect = 0.5625,
   margin,
   top,
-  anchorY = 0.42,
 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -57,17 +54,29 @@ export const PresenterBadge: React.FC<Props> = ({
 
   const D = size ?? (vertical ? 192 : 240);
   const m = margin ?? (vertical ? 48 : 52);
-  // 竖屏放在导航条（y 230–300）之下，横屏放在顶部右侧
   const t0 = top ?? (vertical ? 316 : 152);
 
-  // 内层画面尺寸：宽度由取景倍数决定，高度按源片真实宽高比推算
-  const innerW = D * zoom;
-  const innerH = innerW / Math.max(0.3, srcAspect);
-  // 人脸中心锚定到圆内 anchorY 处：上方留头发空间，下方留肩膀与衣领
-  const left = D / 2 - focusX * innerW;
-  const offsetTop = D * anchorY - focus * innerH;
+  const aspect = Math.max(0.3, srcAspect);
 
-  // 入场：0.4s 内轻微放大淡入，避免硬切
+  // 目标：头部占圆直径 55%；窗口高度 = 源片高度的 windowFrac。
+  // windowFrac 最大到整幅宽（aspect），所以 zoom 不会 < 1 —— 保证不越出原片内容。
+  const targetHeadFill = 0.55;
+  const neededWindow = headRatio / targetHeadFill;
+  const z = Math.max(1, zoom ?? aspect / Math.min(neededWindow, aspect));
+  const windowFrac = Math.min(1, aspect / z);
+
+  const innerW = D * z;
+  const innerH = innerW / aspect;
+
+  // 头发顶部留 6% 窗口，其余给肩颈；再夹到原片边界内
+  const headTop = focus - headRatio / 2;
+  const topPad = 0.06 * windowFrac;
+  const maxStart = Math.max(0, 1 - windowFrac);
+  const start = Math.min(Math.max(0, headTop - topPad), maxStart);
+
+  const left = D / 2 - focusX * innerW;
+  const offsetTop = -start * innerH;
+
   const enter = spring({
     frame,
     fps,
