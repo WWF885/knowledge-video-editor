@@ -1,7 +1,7 @@
 ---
 name: knowledge-video-editor
-description: 知识型口播智能剪辑（Knowledge Video Editor）。当用户上传或指定一段未剪辑的真人/数字人口播视频，要求做自动精剪、知识可视化包装、加中英双语字幕、生成封面帧、输出横屏 16:9 或竖屏 9:16 成片时使用。适用于知识科普、工具实操、商业分析、观点表达、故事分享、行业解读六类内容，内置 20 种视觉组件、两套高级配色（深空黑金 / 珍珠墨绿）、动态章节导航栏与自动质检。也适用于要求"帮我剪口播视频""把口播做成知识视频""视频剪辑自动化""批量剪辑""生成封面首帧"等场景。
-version: 1.0.0
+description: 知识型口播智能剪辑（Knowledge Video Editor）。当用户上传或指定一段未剪辑的真人/数字人口播视频，要求做自动精剪、知识可视化包装、加中英双语字幕、生成封面帧、输出横屏 16:9 或竖屏 9:16 成片时使用。适用于知识科普、工具实操、商业分析、观点表达、故事分享、行业解读六类内容，内置 21 种视觉组件、两套高级配色（深空黑金 / 珍珠墨绿）、动态章节导航栏、真人圆形头像与自动质检。也适用于要求"帮我剪口播视频""把口播做成知识视频""视频剪辑自动化""批量剪辑""生成封面首帧"等场景。
+version: 1.0.1
 license: MIT
 ---
 
@@ -48,10 +48,10 @@ license: MIT
 | 6 | 全片导演计划（视频类型/主题/封面/章节/节奏） | `director_plan.json` | 大模型 + 模板 |
 | 7 | 逻辑可视化（知识点 → 视觉组件映射） | `visual_map.json` | 大模型 + `07` 规范 |
 | 8 | 逐秒分镜（每 1 秒都有安排，每 3 秒评估构图） | `storyboard.json` | 大模型 + `storyboard.schema.json` |
-| 9 | 自适应构图（横屏/竖屏安全区计算） | `layout.json` | `config/safe-areas.json` |
+| 9 | 自适应构图（横屏/竖屏安全区、真人头像区域） | `layout.json` | `config/safe-areas.json` |
 | 10 | 中英双语字幕（逐句、语义断句、宽度实测） | `subtitle.srt` + `subtitle.json` | `transcribe.py --bilingual` |
 | 11 | 首帧封面生成（第一帧即封面） | `cover.png` | `render_video.py --cover-only` |
-| 12 | 正式渲染（Remotion 合成 + 音效/BGM 混音） | `output/01_最终成片.mp4` | `render_video.py` |
+| 12 | 正式渲染（Remotion 合成 + 真人头像 + 音效/BGM 混音） | `output/01_最终成片.mp4` | `render_video.py` |
 | 13 | 质检与自动修复（内容/画面/字幕/声音/解码） | `qc_report.md` | `quality_check.py` |
 
 一键串联：`python3 scripts/run.py --video <原片> --out <目录> --ratio 16:9`
@@ -70,6 +70,9 @@ license: MIT
 8. **不许把横屏成片直接裁剪成竖屏**，必须重新布局、重新渲染。
 9. **验收分 < 90 必须自动定位并修复**，修不好就如实报告，不许宣布合格。
 10. **素材必须可授权使用**，不明来源的图片/音乐/视频一律不用。
+11. **每个画面都必须有真人。** 真人镜头用 V01/V02 占满；知识画面（关键词、流程、对比、卡片、数字、总结等）**必须**在右上角叠加 V21 真人圆形头像，任何镜头都不允许全程无真人。
+12. **圆形头像取景与位置三条铁律。**（a）圆内必须露出**头发 + 完整五官 + 上肩**，禁止裁掉额头或下巴；（b）固定**右上角**，竖屏压在导航条之下、横屏压在顶部右侧，与边缘留 48–52px；（c）**绝不能压住标题、知识卡片和字幕**——内容区要为它让位（竖屏内容整体下移、横屏右侧留 344px 安全区）。
+13. **讲解文字默认放大 12%。** 知识画面的标题、要点、卡片正文统一按 `text_scale 1.12` 渲染，宁可减少字数，不要缩小字号。
 
 ---
 
@@ -118,7 +121,7 @@ knowledge-video-editor/
 | 横竖屏布局、导航栏参数 | `references/04_横竖屏与动态导航.md` |
 | 两个主题的色值与使用场景 | `references/05_配色与视觉设计.md` |
 | 逐秒分镜怎么写、动画曲线 | `references/06_智能分镜与逐秒动态.md` |
-| V01–V20 组件怎么选、怎么扩 | `references/07_视觉组件使用规范.md` |
+| V01–V20 组件怎么选、V21 头像怎么做 | `references/07_视觉组件使用规范.md` |
 | 字幕字号、断句、安全区 | `references/08_中英字幕与安全区.md` |
 | BGM 与音效密度、避让 | `references/09_背景音乐与音效.md` |
 | 质检 100 分怎么打、怎么修 | `references/10_质检与自动修复.md` |
@@ -143,7 +146,7 @@ python3 scripts/edit_video.py --video input.mp4 --edl work/edl.json --out work/e
 # 5. 校验分镜（不通过不许渲染）
 python3 scripts/validate_storyboard.py --storyboard work/storyboard.json
 
-# 6. 渲染（含封面单独导出）
+# 6. 渲染（含封面单独导出，含真人圆形头像）
 python3 scripts/render_video.py --storyboard work/storyboard.json --ratio 16:9 \
   --audio work/edited.mp4 --cover cover.png --out output/01_最终成片.mp4
 
@@ -175,6 +178,10 @@ python3 scripts/run.py --video input.mp4 --out project/ --ratio 9:16 --theme pea
     "visible_from_first_frame": true,
     "duration": 2
   },
+  "presenter": {
+    "always_visible": true,
+    "badge": { "enabled": true, "diameter_px": 192, "top_px": 312, "focus_x": 0.62, "focus_y": 0.34, "zoom": 1.0 }
+  },
   "navigation": { "enabled": true, "chapters": ["现状", "逻辑", "案例", "总结"] },
   "subtitles": { "languages": ["zh", "en"], "layout": "chinese_above_english", "safe_area_check": true },
   "storyboard": [
@@ -191,7 +198,7 @@ python3 scripts/run.py --video input.mp4 --out project/ --ratio 9:16 --theme pea
 }
 ```
 
-正式执行时还必须带：素材绝对路径、精确帧号、真实字幕时间戳、图形坐标、动画曲线、授权信息、横竖屏安全区。
+正式执行时还必须带：素材绝对路径、精确帧号、真实字幕时间戳、图形坐标、动画曲线、授权信息、横竖屏安全区、头像取景参数。
 
 ---
 
